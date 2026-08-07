@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сервис Услуг Roblox — Blox Fruits, Fisch, TSB, JJS</title>
+    <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --card-bg: #141d2b;
+            --card-border: #233145;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-amber: #f59e0b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --input-bg: #0d1424;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding: 20px 10px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .header-bar {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .title-group h1 {
+            font-size: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .title-group p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .header-status-panel {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            background: var(--input-bg);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .dot.online { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+        .dot.offline { background: var(--accent-red); }
+
+        .admin-btn-header {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .admin-btn-header:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            border-bottom: 2px solid var(--card-border);
+            padding-bottom: 10px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--card-border);
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #38bdf8;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge-hot {
+            background: #ef4444;
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 15px;
+        }
+
+        .service-box {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .service-box h3 {
+            font-size: 1.05rem;
+            color: var(--accent-amber);
+            margin-bottom: 8px;
+        }
+
+        .service-box ul {
+            list-style: none;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+        }
+
+        .service-box ul li {
+            margin-bottom: 6px;
+            padding-left: 14px;
+            position: relative;
+        }
+
+        .service-box ul li::before {
+            content: "•";
+            color: var(--accent-blue);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .rules-list {
+            list-style: none;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .rules-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .rules-list li::before {
+            content: "⚡";
+            position: absolute;
+            left: 0;
+            font-size: 0.8rem;
+        }
+
+        .highlight-text {
+            color: #f43f5e;
+            font-weight: bold;
+        }
+
+        .limit-info-box {
+            background: #1e1b4b;
+            border: 1px solid #4338ca;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 15px;
+            font-size: 0.88rem;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background: var(--input-bg);
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password:hover {
+            color: white;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .ticket-result {
+            display: none;
+            margin-top: 20px;
+            background: #050b14;
+            border: 1px solid var(--accent-blue);
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .ticket-result pre {
+            white-space: pre-wrap;
+            font-family: monospace;
+            color: #38bdf8;
+            font-size: 0.88rem;
+            margin-bottom: 12px;
+        }
+
+        .copy-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            background: #475569;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .admin-stat-card {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+
+        .ticket-list-admin {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .admin-ticket-item {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 0.88rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .status-new { background: #0284c7; color: white; }
+        .status-progress { background: #f59e0b; color: white; }
+        .status-done { background: #16a34a; color: white; }
+        .status-cancel { background: #dc2626; color: white; }
+
+        .admin-ticket-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+        }
+        .btn-accept { background: #0284c7; }
+        .btn-done { background: #16a34a; }
+        .btn-cancel { background: #dc2626; }
+
+        .chat-box {
+            margin-top: 10px;
+            background: #090d16;
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 8px;
+        }
+        .chat-messages {
+            max-height: 160px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .chat-msg {
+            background: #1e293b;
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        .chat-msg.ai-msg {
+            background: #1e1b4b;
+            border-left: 3px solid #818cf8;
+        }
+        .ai-disclaimer {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-top: 3px;
+            font-style: italic;
+        }
+        .chat-input-row {
+            display: flex;
+            gap: 6px;
+        }
+        .chat-input-row input {
+            padding: 6px;
+            font-size: 0.8rem;
+        }
+        .chat-input-row button {
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            background: var(--accent-blue);
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .review-card {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+        .stars {
+            color: #f59e0b;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <div class="header-bar">
+        <div class="title-group">
+            <h1>🎮 Сервис Услуг Roblox</h1>
+            <p>Blox Fruits • Fisch • The Strongest Battlegrounds • Jujutsu Shenanigans</p>
+        </div>
+        <div class="header-status-panel">
+            <div class="status-indicator">
+                <span class="dot" id="adminStatusDot"></span>
+                <span id="adminStatusText">Админы: Офлайн</span>
+            </div>
+            <div class="status-indicator">
+                <span class="dot online"></span>
+                <span>Вы: Онлайн</span>
+            </div>
+            <div>
+                <button class="admin-btn-header" id="adminAuthBtn" onclick="openAdminModal()">🔑 Админка</button>
+                <button class="admin-btn-header hidden" id="adminLogoutBtn" onclick="logoutAdmin()" style="background: #dc2626;">🚪 Выйти</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('servicesTab')">📋 Каталог</button>
+        <button class="tab-btn" onclick="switchTab('orderTab')">📝 Заказ</button>
+        <button class="tab-btn" onclick="switchTab('clientTicketsTab')">📦 Мои Тикеты</button>
+        <button class="tab-btn" onclick="switchTab('reviewsTab')">⭐ Отзывы</button>
+        <button class="tab-btn" onclick="switchTab('rulesTab')">📜 Правила</button>
+        <button class="tab-btn hidden" id="adminTabBtn" onclick="switchTab('adminTab')">⚙️ Админ Панель</button>
+    </div>
+
+    <!-- TAB 1: Services Catalog -->
+    <div id="servicesTab" class="tab-content">
+        <div class="card">
+            <div class="card-title">
+                <span>Список всех доступных услуг</span>
+            </div>
+            <div class="services-grid">
+                <div class="service-box">
+                    <h3>🏴‍☠️ Blox Fruits</h3>
+                    <ul>
+                        <li>Рейды: Обычные и полное пробуждение (Full Awaken)</li>
+                        <li>Триалы и прокачка рас (Гуль, Дракон, Киборг) V1 → V4 с нуля</li>
+                        <li>Поиск Чаши (не быстро)</li>
+                        <li>Мечи: ТТК, КДК и другие</li>
+                        <li>Походы на Левиафана</li>
+                        <li>Прокачка уровня (до 500 уровней за заказ)</li>
+                        <li>Спавн боссов (Индра и др.)</li>
+                        <li>Получение аксессуаров, предметов и фрагментов</li>
+                        <li>Фарм денег (возможен вход на аккаунт)</li>
+                        <li>Получение Soul Guitar и другого оружия</li>
+                    </ul>
+                </div>
+
+                <div class="service-box" style="border-color: #f59e0b;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="color: #f59e0b;">🎣 Fisch[cite: 1]</h3>
+                        <span class="badge-hot">Самое дорогое</span>
+                    </div>
+                    <ul>
+                        <li>Фарм денег (в зависимости от аккаунта)[cite: 1]</li>
+                        <li>Получение всех видов удочек[cite: 1]</li>
+                        <li>Помощь с квестами[cite: 1]</li>
+                        <li>Прокачка до 100 уровней[cite: 1]</li>
+                        <li>ЛОВЛЯ редкой и легендарной рыбы[cite: 1]</li>
+                    </ul>
+                </div>
+
+                <div class="service-box">
+                    <h3>👊 JJS & TSB</h3>
+                    <ul>
+                        <li>Фарм киллов[cite: 1]</li>
+                        <li>Фарм эмоций:[cite: 1]
+                            <br>• TSB — до 5 эмоций[cite: 1]
+                            <br>• JJS — 2–3 эмоции[cite: 1]
+                            <br>• (Можно 10+, цена и время выше)[cite: 1]
+                        </li>
+                        <li>Помощь с тимейтами (работает команда из 3 человек)[cite: 1]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: Order Form -->
+    <div id="orderTab" class="tab-content hidden">
+        <div class="card">
+            <div class="card-title">Создание Тикета на Заказ</div>
+            
+            <form id="ticketForm">
+                <div class="form-group">
+                    <label for="robloxUser">Ваш никнейм в Roblox:</label>
+                    <input type="text" id="robloxUser" placeholder="Например: Player_123" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="discordUser">Ваш Discord ник:</label>
+                    <input type="text" id="discordUser" placeholder="Например: username#0000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gameSelect">Выберите игру:</label>
+                    <select id="gameSelect" required>
+                        <option value="" disabled selected>-- Выберите игру --</option>
+                        <option value="Blox Fruits">Blox Fruits</option>
+                        <option value="Fisch">Fisch</option>
+                        <option value="The Strongest Battlegrounds (TSB)">TSB (The Strongest Battlegrounds)</option>
+                        <option value="Jujutsu Shenanigans (JJS)">JJS (Jujutsu Shenanigans)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="orderCategory">Размер / Тип заказа:</label>
+                    <select id="orderCategory" required>
+                        <option value="Маленький (Будда / Портал и т.д.)">Маленький (Будда / Портал и т.д.)</option>
+                        <option value="Средний (от Лайтнинга / Газа)">Средний (от Лайтнинга до Газа)</option>
+                        <option value="Большой (Перм фрукты от Льда, Геймпасы +стор, Тигр, Йети)">Большой (Перм фрукты от Льда, Геймпасы +стор, Тигр, Йети и др.)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentMethod">Способ оплаты:</label>
+                    <select id="paymentMethod" required>
+                        <option value="Фрукты в игре">Фрукты в игре</option>
+                        <option value="Перманентные фрукты (Пермы)">Перманентные фрукты (Пермы)</option>
+                        <option value="Перевод на карту (UAH)">Перевод на карту (UAH)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentDetails">Уточнение по оплате (какие фрукты / сумма или детали перевода):</label>
+                    <input type="text" id="paymentDetails" placeholder="Например: Даю Тек и Будду / Пермь Магма / 150 грн на карту" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Режим выполнения заказа:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="scriptMode" value="Со скриптом (по умолчанию)" checked> Со скриптом (помощник)
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="scriptMode" value="Без скрипта (по просьбе)"> Без скрипта (вручную)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="orderDetails">Подробное описание заказа:</label>
+                    <textarea id="orderDetails" rows="4" placeholder="Укажите, что именно нужно сделать..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">✨ Сформировать Текст Заказа</button>
+            </form>
+
+            <div class="ticket-result" id="ticketResult">
+                <p style="color: #cbd5e1; font-weight: bold; margin-bottom: 8px;">Скопируйте этот текст и отправьте в ЛС:</p>
+                <pre id="ticketOutputText"></pre>
+                <button class="copy-btn" onclick="copyTicketToClipboard()">📋 Скопировать Текст Заказа</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 3: Client Tickets History -->
+    <div id="clientTicketsTab" class="tab-content hidden">
+        <div class="card">
+            <div class="card-title">📦 История моих тикетов</div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Здесь отображаются все созданные вами тикеты и чаты с поддержкой / ИИ-ассистентом (данные обновляются автоматически).</p>
+            <div id="clientTicketsContainer" class="ticket-list-admin">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">У вас пока нет созданных тикетов. Оформите заказ во вкладке «Заказ».</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 4: Reviews System -->
+    <div id="reviewsTab" class="tab-content hidden">
+        <div class="card">
+            <div class="card-title">⭐ Система Отзывов</div>
+            
+            <form id="reviewForm" style="background: var(--input-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--card-border); margin-bottom: 20px;">
+                <h4 style="margin-bottom: 10px; font-size: 1rem; color: #38bdf8;">Оставить отзыв</h4>
+                <div class="form-group">
+                    <label for="revUser">Ваш ник:</label>
+                    <input type="text" id="revUser" placeholder="Ваш Roblox ник" required>
+                </div>
+                <div class="form-group">
+                    <label for="revRating">Оценка:</label>
+                    <select id="revRating" required>
+                        <option value="5">⭐⭐⭐⭐⭐ (5/5 - Идеально)</option>
+                        <option value="4">⭐⭐⭐⭐ (4/5 - Хорошо)</option>
+                        <option value="3">⭐⭐⭐ (3/5 - Нормально)</option>
+                        <option value="2">⭐⭐ (2/5 - Так себе)</option>
+                        <option value="1">⭐ (1/5 - Плохо)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="revText">Ваш отзыв:</label>
+                    <textarea id="revText" rows="3" placeholder="Напишите впечатления от заказа..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn" style="padding: 10px;">Опубликовать отзыв</button>
+            </form>
+
+            <h4 style="margin-bottom: 12px; color: #cbd5e1;">Отзывы клиентов:</h4>
+            <div id="reviewsContainer">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Пока нет отзывов. Станьте первыми!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 5: Rules -->
+    <div id="rulesTab" class="tab-content hidden">
+        <div class="card">
+            <div class="card-title">📜 Оплата, Правила и Условия</div>
+            <ul class="rules-list">
+                <li><b>Способы оплаты:</b> Принимаем оплату <span style="color: var(--accent-green);">фруктами в игре</span>, <span style="color: var(--accent-green);">перманентными фруктами (пермами)</span> или <span style="color: var(--accent-green);">переводом на карту (UAH)</span>[cite: 1].</li>
+                <li><b>Порядок оплаты:</b> Первым в сделку не иду. Работа начинается после согласования оплаты[cite: 1].</li>
+                <li><b>Использование скриптов:</b> По умолчанию заказ выполняется со скриптом (помощник). Если вы против — сделаем <span style="color: var(--accent-amber);">без скрипта</span>[cite: 1].</li>
+                <li><b>Вход на аккаунт:</b> Некоторые услуги выполняются только со входом на аккаунт[cite: 1].</li>
+                <li><span class="highlight-text">Запрет:</span> Нюдсы не присылать[cite: 1]!</li>
+                <li><b>Отзывы:</b> После выполнения заказа обязательно оставьте отзыв[cite: 1]!</li>
+            </ul>
+
+            <div class="limit-info-box">
+                <h4 style="color: #818cf8; margin-bottom: 8px;">⏳ Дневные Лимиты на Заказы[cite: 1]:</h4>
+                <p>• <b>Маленькие и Средние заказы:</b> Делаем строго до <b>5 заказов в день</b>[cite: 1].</p>
+                <p>• <b>Большие заказы:</b> <span style="color: #4ade80; font-weight: bold;">ПРИВЕТСТВУЮТСЯ ВСЕГДА, БЕЗ ЛИМИТОВ!</span> На лимит всё равно 🔥[cite: 1]</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 6: Admin Panel -->
+    <div id="adminTab" class="tab-content hidden">
+        <div class="card">
+            <div class="card-title">⚙️ Панель Управления Администратора</div>
+            
+            <div class="admin-stat-card">
+                <h4>📊 Статус заказов на сегодня:</h4>
+                <p style="margin-top: 5px;">Маленькие/Средние заказы сегодня: <b id="dailyCount">0</b> / 5[cite: 1]</p>
+                <p style="margin-top: 3px; color: var(--accent-green);">Большие заказы: <b>БЕЗ ЛИМИТА</b>[cite: 1]</p>
+                <button onclick="resetDailyCount()" style="margin-top: 10px; padding: 6px 12px; background: #334155; color: white; border: none; border-radius: 4px; cursor: pointer;">Сбросить счетчик дня</button>
+            </div>
+
+            <h4 style="margin-top: 15px; color: #38bdf8;">📥 Все Тикеты системы (автообновление):</h4>
+            <div class="ticket-list-admin" id="adminTicketsContainer">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Пока нет сохраненных тикетов.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Admin Modal -->
+<div class="modal-overlay" id="adminModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 style="color: #fff;" id="modalTitle">🔑 Вход в Админ Панель</h3>
+            <button class="close-modal" onclick="closeAdminModal()">&times;</button>
+        </div>
+        
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="adminLogin">Логин:</label>
+                <input type="text" id="adminLogin" required placeholder="Введите логин">
+            </div>
+            <div class="form-group">
+                <label for="adminPass">Пароль:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="adminPass" required placeholder="Введите пароль">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('adminPass', this)">👁️</button>
+                </div>
+            </div>
+            <p id="authError" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 10px; display: none;">Неверный логин или пароль!</p>
+            <button type="submit" class="submit-btn" style="background: var(--accent-purple); margin-bottom: 10px;">Войти</button>
+            <button type="button" onclick="showRegisterForm()" style="background: transparent; border: none; color: var(--accent-blue); cursor: pointer; width: 100%; font-size: 0.85rem;">Регистрация нового админа по коду</button>
+        </form>
+
+        <form id="adminRegisterForm" class="hidden">
+            <div class="form-group">
+                <label for="regSecretCode">Спец. код для регистрации:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="regSecretCode" required placeholder="Введите секретный код">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('regSecretCode', this)">👁️</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="regLogin">Новый логин:</label>
+                <input type="text" id="regLogin" required placeholder="Придумайте логин">
+            </div>
+            <div class="form-group">
+                <label for="regPass">Новый пароль:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="regPass" required placeholder="Придумайте пароль">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('regPass', this)">👁️</button>
+                </div>
+            </div>
+            <p id="regError" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 10px; display: none;"></p>
+            <button type="submit" class="submit-btn" style="background: var(--accent-green); margin-bottom: 10px;">Зарегистрировать админа</button>
+            <button type="button" onclick="showLoginForm()" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; width: 100%; font-size: 0.85rem;">← Назад ко входу</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Загрузка сохраненных администраторов из localStorage (если их нет — создается дефолтный admin:helper)
+    let adminsList = JSON.parse(localStorage.getItem('roblox_admins') || JSON.stringify([
+        { login: 'admin', pass: 'helper' }
+    ]));
+
+    // Проверка, был ли пользователь уже авторизован на этом устройстве
+    let isAdmin = localStorage.getItem('roblox_is_logged_in') === 'true';
+
+    let savedTickets = JSON.parse(localStorage.getItem('roblox_tickets') || '[]');
+    let dailyCount = parseInt(localStorage.getItem('roblox_daily_count') || '0');
+    let reviewsList = JSON.parse(localStorage.getItem('roblox_reviews') || '[]');
+
+    const REG_SECRET_CODE = 'Ninja4334';
+
+    document.getElementById('dailyCount').textContent = dailyCount;
+
+    // Автоматическая проверка состояния входа при загрузке страницы
+    if (isAdmin) {
+        document.getElementById('adminAuthBtn').classList.add('hidden');
+        document.getElementById('adminLogoutBtn').classList.remove('hidden');
+        document.getElementById('adminTabBtn').classList.remove('hidden');
+    }
+
+    // Главный интервал каждую секунду
+    setInterval(() => {
+        const latestTickets = JSON.parse(localStorage.getItem('roblox_tickets') || '[]');
+        if (JSON.stringify(latestTickets) !== JSON.stringify(savedTickets)) {
+            savedTickets = latestTickets;
+            const activeTab = document.querySelector('.tab-content:not(.hidden)').id;
+            if (activeTab === 'clientTicketsTab') {
+                renderClientTickets();
+            } else if (activeTab === 'adminTab' && isAdmin) {
+                renderAdminTickets();
+            }
+        }
+
+        if (isAdmin) {
+            localStorage.setItem('admin_last_seen', Date.now());
+        }
+        checkAdminOnlineStatus();
+    }, 1000);
+
+    function checkAdminOnlineStatus() {
+        const lastSeen = parseInt(localStorage.getItem('admin_last_seen') || '0');
+        const now = Date.now();
+        const dot = document.getElementById('adminStatusDot');
+        const txt = document.getElementById('adminStatusText');
+        
+        if (now - lastSeen < 6000) {
+            dot.className = 'dot online';
+            txt.textContent = 'Админы: Онлайн';
+        } else {
+            dot.className = 'dot offline';
+            txt.textContent = 'Админы: Офлайн';
+        }
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.remove('hidden');
+        
+        const btns = document.querySelectorAll('.tab-btn');
+        if(tabId === 'servicesTab') btns[0].classList.add('active');
+        if(tabId === 'orderTab') btns[1].classList.add('active');
+        if(tabId === 'clientTicketsTab') btns[2].classList.add('active');
+        if(tabId === 'reviewsTab') btns[3].classList.add('active');
+        if(tabId === 'rulesTab') btns[4].classList.add('active');
+        if(tabId === 'adminTab') btns[5].classList.add('active');
+
+        if(tabId === 'clientTicketsTab') renderClientTickets();
+        if(tabId === 'reviewsTab') renderReviews();
+        if(tabId === 'adminTab') renderAdminTickets();
+    }
+
+    function openAdminModal() { 
+        document.getElementById('adminModal').style.display = 'flex'; 
+        showLoginForm();
+    }
+    
+    function closeAdminModal() { 
+        document.getElementById('adminModal').style.display = 'none'; 
+        document.getElementById('authError').style.display = 'none';
+        document.getElementById('regError').style.display = 'none';
+    }
+
+    function showRegisterForm() {
+        document.getElementById('adminLoginForm').classList.add('hidden');
+        document.getElementById('adminRegisterForm').classList.remove('hidden');
+        document.getElementById('modalTitle').textContent = '📝 Регистрация Админа';
+    }
+
+    function showLoginForm() {
+        document.getElementById('adminRegisterForm').classList.add('hidden');
+        document.getElementById('adminLoginForm').classList.remove('hidden');
+        document.getElementById('modalTitle').textContent = '🔑 Вход в Админ Панель';
+    }
+
+    function togglePasswordVisibility(fieldId, btnElement) {
+        const inputField = document.getElementById(fieldId);
+        if (inputField.type === 'password') {
+            inputField.type = 'text';
+            btnElement.textContent = '🔒';
+        } else {
+            inputField.type = 'password';
+            btnElement.textContent = '👁️';
+        }
+    }
+
+    // Обработка входа в систему с сохранением сессии
+    document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const user = document.getElementById('adminLogin').value.trim();
+        const pass = document.getElementById('adminPass').value;
+
+        // Перепроверяем актуальный список из localStorage на случай свежих регистраций
+        adminsList = JSON.parse(localStorage.getItem('roblox_admins') || JSON.stringify([{ login: 'admin', pass: 'helper' }]));
+        const foundAdmin = adminsList.find(a => a.login === user && a.pass === pass);
+
+        if (foundAdmin) {
+            isAdmin = true;
+            localStorage.setItem('roblox_is_logged_in', 'true'); // Сохраняем сессию входа навсегда
+            localStorage.setItem('admin_last_seen', Date.now());
+            closeAdminModal();
+            document.getElementById('adminAuthBtn').classList.add('hidden');
+            document.getElementById('adminLogoutBtn').classList.remove('hidden');
+            document.getElementById('adminTabBtn').classList.remove('hidden');
+            renderAdminTickets();
+            switchTab('adminTab');
+        } else {
+            document.getElementById('authError').style.display = 'block';
+        }
+    });
+
+    // Обработка регистрации нового администратора с сохранением в localStorage
+    document.getElementById('adminRegisterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const code = document.getElementById('regSecretCode').value;
+        const user = document.getElementById('regLogin').value.trim();
+        const pass = document.getElementById('regPass').value;
+        const errEl = document.getElementById('regError');
+
+        if (code !== REG_SECRET_CODE) {
+            errEl.textContent = 'Неверный секретный код!';
+            errEl.style.display = 'block';
+            return;
+        }
+
+        if (adminsList.some(a => a.login === user)) {
+            errEl.textContent = 'Такой логин уже занят!';
+            errEl.style.display = 'block';
+            return;
+        }
+
+        adminsList.push({ login: user, pass: pass });
+        localStorage.setItem('roblox_admins', JSON.stringify(adminsList)); // Надежно сохраняем базу админов
+
+        alert('✅ Администратор успешно зарегистрирован и сохранен! Теперь войдите под своими данными.');
+        showLoginForm();
+    });
+
+    function logoutAdmin() {
+        isAdmin = false;
+        localStorage.removeItem('roblox_is_logged_in'); // Удаляем сессию входа при выходе
+        document.getElementById('adminAuthBtn').classList.remove('hidden');
+        document.getElementById('adminLogoutBtn').classList.add('hidden');
+        document.getElementById('adminTabBtn').classList.add('hidden');
+        switchTab('servicesTab');
+    }
+
+    document.getElementById('ticketForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const user = document.getElementById('robloxUser').value;
+        const discord = document.getElementById('discordUser').value;
+        const game = document.getElementById('gameSelect').value;
+        const category = document.getElementById('orderCategory').value;
+        const payment = document.getElementById('paymentMethod').value;
+        const payDetails = document.getElementById('paymentDetails').value;
+        const scriptMode = document.querySelector('input[name="scriptMode"]:checked').value;
+        const details = document.getElementById('orderDetails').value;
+        const date = new Date().toLocaleString('ru-RU');
+
+        const isSmallOrMedium = category.includes('Маленький') || category.includes('Средний');
+
+        if (isSmallOrMedium && dailyCount >= 5 && !isAdmin) {
+            alert('⚠️ Лимит маленьких/средних заказов на сегодня (5/5) исчерпан! Вы можете оформить БОЛЬШОЙ заказ (без лимита)[cite: 1].');
+        }
+
+        let globalTicketCounter = parseInt(localStorage.getItem('roblox_global_counter') || '0') + 1;
+        localStorage.setItem('roblox_global_counter', globalTicketCounter.toString());
+
+        const ticketText = 
+`--- 🎮 ЗАКАЗ УСЛУГИ ROBLOX №${globalTicketCounter} ---
+📅 Дата: ${date}
+👤 Никнейм Roblox: ${user}
+💬 Discord: ${discord}
+🎯 Игра: ${game}
+📦 Категория: ${category}
+💳 Оплата: ${payment} (${payDetails})
+⚙️ Режим: ${scriptMode}
+-------------------------------
+📝 Детали заказа:
+${details}
+-------------------------------
+📩 Пишу в ЛС для подтверждения!`;
+
+        document.getElementById('ticketOutputText').textContent = ticketText;
+        document.getElementById('ticketResult').style.display = 'block';
+
+        const newTicket = { 
+            id: Date.now(), 
+            number: globalTicketCounter,
+            user, 
+            discord, 
+            game, 
+            category, 
+            payment, 
+            payDetails, 
+            scriptMode, 
+            details, 
+            date, 
+            status: 'Новый',
+            messages: [
+                {
+                    sender: '🤖 ИИ Ассистент',
+                    text: `Приветствую, ${user}! Я виртуальный помощник сервиса. Ваш заказ по игре "${game}" принят в обработку. Оплата: ${payment} (${payDetails}). Администратор скоро свяжется с вами!`,
+                    time: new Date().toLocaleTimeString(),
+                    isAi: true
+                }
+            ]
+        };
+        
+        savedTickets.unshift(newTicket);
+        localStorage.setItem('roblox_tickets', JSON.stringify(savedTickets));
+
+        if (isSmallOrMedium) {
+            dailyCount++;
+            localStorage.setItem('roblox_daily_count', dailyCount.toString());
+            document.getElementById('dailyCount').textContent = dailyCount;
+        }
+
+        if (isAdmin) renderAdminTickets();
+        switchTab('clientTicketsTab');
+    });
+
+    function copyTicketToClipboard() {
+        const text = document.getElementById('ticketOutputText').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('✅ Текст заказа скопирован! Теперь вставьте его в ЛС продавцу.');
+        });
+    }
+
+    function renderClientTickets() {
+        const container = document.getElementById('clientTicketsContainer');
+        if (savedTickets.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">У вас пока нет созданных тикетов. Оформите заказ во вкладке «Заказ».</p>';
+            return;
+        }
+
+        container.innerHTML = savedTickets.map(t => {
+            let statusClass = 'status-new';
+            if (t.status === 'В работе') statusClass = 'status-progress';
+            if (t.status === 'Завершено') statusClass = 'status-done';
+            if (t.status === 'Отменено') statusClass = 'status-cancel';
+
+            const msgsHtml = (t.messages || []).map(m => `
+                <div class="chat-msg ${m.isAi ? 'ai-msg' : ''}">
+                    <b>${m.sender}:</b> ${m.text}
+                    ${m.isAi ? '<div class="ai-disclaimer">⚠️ ИИ может ошибаться, уточняйте актуальные детали у администратора.</div>' : ''}
+                </div>
+            `).join('');
+
+            return `
+                <div class="admin-ticket-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                        <b>Тикет #${t.number} — ${t.game}</b>
+                        <span class="status-badge ${statusClass}">${t.status}</span>
+                    </div>
+                    <p><b>Игрок:</b> ${t.user} | <b>Discord:</b> ${t.discord}</p>
+                    <p><b>Категория:</b> ${t.category}</p>
+                    <p><b>Оплата:</b> ${t.payment} (${t.payDetails})</p>
+                    <p style="margin-top: 4px; color: #94a3b8;"><b>Детали:</b> ${t.details}</p>
+                    <p style="font-size: 0.75rem; color: #64748b; margin-top: 6px;">Создано: ${t.date}</p>
+
+                    <div class="chat-box">
+                        <div class="chat-messages" id="clientChatMsgs_${t.id}">
+                            ${msgsHtml || '<span style="color: var(--text-muted); font-size: 0.75rem;">Сообщений нет...</span>'}
+                        </div>
+                        <div class="chat-input-row">
+                            <input type="text" id="clientChatInput_${t.id}" placeholder="Задать вопрос или написать детали...">
+                            <button onclick="sendClientChatMessage(${t.id})">Отправить</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function sendClientChatMessage(id) {
+        const input = document.getElementById(`clientChatInput_${id}`);
+        if (!input) return;
+        const text = input.value.trim();
+        if (!text) return;
+
+        const ticket = savedTickets.find(t => t.id === id);
+        if (ticket) {
+            if (!ticket.messages) ticket.messages = [];
+            ticket.messages.push({ sender: ticket.user, text, time: new Date().toLocaleTimeString(), isAi: false });
+            
+            if (text.toLowerCase().includes('цена') || text.toLowerCase().includes('сколько') || text.toLowerCase().includes('стоимость')) {
+                ticket.messages.push({
+                    sender: '🤖 ИИ Ассистент',
+                    text: `Стоимость зависит от выбранной категории (${ticket.category}) и объема работы. Оплата согласована как: ${ticket.payment}.`,
+                    time: new Date().toLocaleTimeString(),
+                    isAi: true
+                });
+            } else {
+                ticket.messages.push({
+                    sender: '🤖 ИИ Ассистент',
+                    text: `Ваше сообщение передано администратору! Ожидайте ответа в чате или в Discord.`,
+                    time: new Date().toLocaleTimeString(),
+                    isAi: true
+                });
+            }
+
+            localStorage.setItem('roblox_tickets', JSON.stringify(savedTickets));
+            input.value = '';
+            renderClientTickets();
+        }
+    }
+
+    function renderAdminTickets() {
+        const container = document.getElementById('adminTicketsContainer');
+        if (!container) return;
+        if (savedTickets.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Пока нет сохраненных тикетов.</p>';
+            return;
+        }
+
+        container.innerHTML = savedTickets.map(t => {
+            let statusClass = 'status-new';
+            if (t.status === 'В работе') statusClass = 'status-progress';
+            if (t.status === 'Завершено') statusClass = 'status-done';
+            if (t.status === 'Отменено') statusClass = 'status-cancel';
+
+            const msgsHtml = (t.messages || []).map(m => `
+                <div class="chat-msg ${m.isAi ? 'ai-msg' : ''}">
+                    <b>${m.sender}:</b> ${m.text}
+                    ${m.isAi ? '<div class="ai-disclaimer">⚠️ ИИ может ошибаться, уточняйте актуальные детали у администратора.</div>' : ''}
+                </div>
+            `).join('');
+
+            return `
+                <div class="admin-ticket-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                        <b>Тикет #${t.number} — ${t.user} (${t.game})</b>
+                        <span class="status-badge ${statusClass}">${t.status}</span>
+                    </div>
+                    <p><b>Discord:</b> ${t.discord}</p>
+                    <p><b>Тип:</b> ${t.category} | <b>Оплата:</b> ${t.payment} (${t.payDetails})</p>
+                    <p><b>Режим:</b> ${t.scriptMode}</p>
+                    <p style="margin-top: 4px; color: #94a3b8;"><b>Детали:</b> ${t.details}</p>
+                    <p style="font-size: 0.75rem; color: #64748b; margin-top: 6px;">${t.date}</p>
+                    
+                    <div class="admin-ticket-actions">
+                        <button class="action-btn btn-accept" onclick="updateTicketStatus(${t.id}, 'В работе')">⚡ В работу</button>
+                        <button class="action-btn btn-done" onclick="updateTicketStatus(${t.id}, 'Завершено')">✅ Готово</button>
+                        <button class="action-btn btn-cancel" onclick="updateTicketStatus(${t.id}, 'Отменено')">❌ Отказ</button>
+                    </div>
+
+                    <div class="chat-box">
+                        <div class="chat-messages" id="adminChatMsgs_${t.id}">
+                            ${msgsHtml || '<span style="color: var(--text-muted); font-size: 0.75rem;">Сообщений пока нет...</span>'}
+                        </div>
+                        <div class="chat-input-row">
+                            <input type="text" id="adminChatInput_${t.id}" placeholder="Ответить клиенту...">
+                            <button onclick="sendAdminChatMessage(${t.id})">Отправить</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function updateTicketStatus(id, newStatus) {
+        const ticket = savedTickets.find(t => t.id === id);
+        if (ticket) {
+            ticket.status = newStatus;
+            localStorage.setItem('roblox_tickets', JSON.stringify(savedTickets));
+            renderAdminTickets();
+        }
+    }
+
+    function sendAdminChatMessage(id) {
+        const input = document.getElementById(`adminChatInput_${id}`);
+        if (!input) return;
+        const text = input.value.trim();
+        if (!text) return;
+
+        const ticket = savedTickets.find(t => t.id === id);
+        if (ticket) {
+            if (!ticket.messages) ticket.messages = [];
+            ticket.messages.push({ sender: 'Админ', text, time: new Date().toLocaleTimeString(), isAi: false });
+            localStorage.setItem('roblox_tickets', JSON.stringify(savedTickets));
+            input.value = '';
+            renderAdminTickets();
+        }
+    }
+
+    document.getElementById('reviewForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const user = document.getElementById('revUser').value.trim();
+        const rating = document.getElementById('revRating').value;
+        const text = document.getElementById('revText').value.trim();
+        const date = new Date().toLocaleDateString('ru-RU');
+
+        reviewsList.unshift({ user, rating, text, date });
+        localStorage.setItem('roblox_reviews', JSON.stringify(reviewsList));
+
+        document.getElementById('revUser').value = '';
+        document.getElementById('revText').value = '';
+        renderReviews();
+        alert('✅ Спасибо за ваш отзыв!');
+    });
+
+    function renderReviews() {
+        const container = document.getElementById('reviewsContainer');
+        if (!container) return;
+        if (reviewsList.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Пока нет отзывов. Станьте первыми!</p>';
+            return;
+        }
+
+        container.innerHTML = reviewsList.map(r => {
+            const starsStr = '⭐'.repeat(parseInt(r.rating));
+            return `
+                <div class="review-card">
+                    <div class="review-header">
+                        <b>${r.user}</b>
+                        <span class="stars">${starsStr}</span>
+                    </div>
+                    <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 6px;">${r.text}</p>
+                    <span style="font-size: 0.72rem; color: #64748b;">${r.date}</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function resetDailyCount() {
+        dailyCount = 0;
+        localStorage.setItem('roblox_daily_count', '0');
+        document.getElementById('dailyCount').textContent = '0';
+        alert('Счетчик дневных заказов сброшен!');
+    }
+</script>
+
+</body>
+</html>
